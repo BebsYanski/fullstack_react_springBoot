@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { fetchEmployees } from "../services/EmployeeService";
+import { useNavigate } from "react-router-dom";
 
 const ListEmployeeComponent = () => {
   const [employees, setEmployees] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchEmployees()
@@ -21,9 +23,21 @@ const ListEmployeeComponent = () => {
   if (isLoading) return <p>Loading employee data...</p>;
   if (error) return <p className="text-danger">{error}</p>;
 
+  const addNewEmployee = () => {
+    navigate("/add-employee");
+  };
+
   return (
     <div>
       <h2 className="text-center">List of Employees</h2>
+      <button
+        type="button"
+        class="btn btn-primary mb-2"
+        onClick={addNewEmployee}
+      >
+        Add Employee
+      </button>
+
       {employees.length > 0 ? (
         <table className="table table-striped table-bordered">
           <thead>
